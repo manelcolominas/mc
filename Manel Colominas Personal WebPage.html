@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manel Colominas' personal webpage showcasing skills, portfolio, and contact information.">
+    <title>Manel Colominas Personal WebPage</title>
+        
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        
+        .header {
+            background-color: #333;
+            /*background-image: url('header.jpg');Update path to your background image */
+            background-image: url('header_mwc.jpg');
+            /* background-image: url('samsung.jpg'); */
+            /* background-image: url('lg.jpg'); */
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 10px 0;
+            text-align: left; /* Align text to the left */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; /* Align items to the left */
+            font-family: Arial, sans-serif;
+            height: 315px;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0;
+        }
+        
+        .header-intro {
+            font-size: 1.75em;
+            color: white;
+            margin-top: 60px; /* Reduced from 150px to 50px */
+            margin-bottom: 0;
+            padding-bottom: 0px;
+        }
+
+        .header-title {
+            font-size: 3.75em;
+            color: white;
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-top: 0px;
+        }
+
+        .header-subtitle {
+            font-size: 1.75em;
+            color: rgb(0, 0, 0);
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-top: 0px;
+        }
+
+        .header-mono {
+            margin: 0; /* Reduced from 5px to 2px */
+            font-size: 1.25em;
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Button background color */
+            color: #fff; /* Text color */
+            border: none; /* Remove border */
+            padding: 10px 20px; /* Padding inside the button */
+            font-size: 15px; /* Font size */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Cursor style */
+            text-decoration: none; /* Remove underline */
+            display: inline-block; /* Make button inline */
+            transition: background-color 0.3s ease; /* Smooth background color transition */
+            margin-top: 15px;
+            margin-bottom: 0;
+            font-size: 1em;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker background color on hover */
+        }
+
+        .btn-primary .ti-printer {
+            font-size: 15px; /* Icon size */
+        }
+        
+        
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 1.25em;
+            margin-right: 50px;
+        }
+        nav ul li a.active {
+            text-decoration: underline;
+        }
+        
+        main {
+            margin: 20px;
+        }
+        section {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: none;
+        }
+        .portfolio img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        form label, form input, form textarea {
+            margin-bottom: 10px;
+        }
+
+        
+        form input#name {
+            width: 200px; /* Adjust the width as needed */
+        }
+        form input#email {
+            width: 250px; /* Adjust the width as needed */
+        }
+        form textarea#message {
+            height: 150px;  /* Adjust the height as needed */
+            resize: none;   /* Prevent resizing */
+            width: 60%;    /* Makes the textarea take the full width of the parent container */
+            padding: 10px;  /* Optional: Adds padding inside the textarea */
+            border: 1px solid #ccc;  /* Optional: Adds a border around the textarea */
+            border-radius: 5px;  /* Optional: Rounds the corners of the textarea */
+            border: 3px solid #ccc; 
+        }   
+        form button {
+            align-self: flex-start;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #555;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        footer .social-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        footer .social-links a:not(:last-child) {
+            margin-right: 10px;
+        }
+
+        /* Keyframes */
+        @keyframes moveInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(150px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .about-text {
+            animation: moveInLeft 1s ease-out;
+        }
+
+        /* Media Queries */
+        @media (max-width: 600px) {
+            nav ul {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 5px 0;
+            }
+            
+                    .social-icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        #about {
+            display: flex;
+            margin: 5px; /* 5px margin on all sides */
+            width: auto -20px; /* Full width minus 5px on each side */
+            padding: 50px;
+            position: relative;
+        }
+        .about-me {
+            max-width: 600px;
+            margin-left: 40px;
+            text-align: justify;
+            padding: 50px;
+            flex: 1;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .about-me-image {
+            max-width: 100px;
+            position: absolute;
+            right: 450px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .about-text {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .text {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        img {
+            max-width: 450px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+    <div class="container">
+        <div class="header-content">
+            <h2 class="header-intro">Hello, I am</h2>
+            <h1 class="header-title">Manel Colominas</h1>
+            <h1 class="header-subtitle">Welcome to my Personal Webpage</h1>
+            <h6 class="header-mono">Network Engineer Student | Full stack Developer</h6>
+            <!-- <a href="Manel Colominas_CV_English.pdf" download="Manel Colominas_CV_English.pdf" class="btn btn-primary btn-rounded">
+                <i class="ti-printer pr-2"></i>Download CV</a> -->
+            <nav aria-label="Main Navigation">
+                <ul>
+                    <li><a id="nav-about" onclick="showSection('about')">About Me</a></li>
+                    <li><a id="nav-skills" onclick="showSection('skills')">Skills</a></li>
+                    <li><a id="nav-aptitudes" onclick="showSection('aptitudes')">Aptitudes</a></li>
+                    <li><a id="nav-contact" onclick="showSection('contact')">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+   
+    <main>
+        <section id="about">
+            <div class="about-me">
+                <h2>About Me</h2>
+                <p class="about-text">
+                    Hello! My name is <strong>Manel Colominas Ruiz</strong>, and I’m a passionate student pursuing a 
+                    <strong>Double Degree</strong> in <strong>Aerospace Engineering Systems</strong> and <strong>Network Engineering</strong> at 
+                    <strong>EETAC-UPC</strong>. My academic journey has provided me with a strong foundation in 
+                    <strong>programming, systems design, and problem-solving</strong>, fueling my enthusiasm for using 
+                    technology to develop <strong>innovative and efficient solutions</strong>.
+                </p>
+                <p class="about-text">
+                    I have experience with <strong>Python, C++, C#, MATLAB, MySQL and JavaScript</strong> and enjoy tackling complex challenges 
+                    with a <strong>strategic and analytical mindset</strong>. Beyond technical skills, I bring 
+                    <strong>creativity, adaptability, and strong communication abilities</strong>, allowing me to thrive both 
+                    independently and in team environments.
+                </p>
+                <p class="about-text">
+                    I’m always eager to learn, grow, and take on new challenges. Let’s connect and explore opportunities to collaborate!
+                </p>
+
+                <a href="Manel_Colominas_CV_English.pdf" target="_blank" class="btn btn-primary btn-rounded">
+                    <i class="ti-printer pr-2"></i> View My CV
+                </a>                
+            </div>
+
+            <div class="about-me-image">
+                <img src="image.jpg" alt="Manel Colominas Ruiz">
+            </div>
+        </section>
+               
+
+        <section id="skills" class="skills">
+            <h1>Skills and Competencies</h1>
+                <h3>Technical Skills</h3>
+                    <ul class="text">
+                        <li><strong>Programming:</strong> Python, C#, MATLAB, JavaScript, C, MySQL, HTML, CSS, Linux</li>
+                        <li><strong>Data Analysis & Optimization:</strong> Algorithmic solutions using linear programming and genetic algorithms, large-scale data processing, economic data analysis.</li>
+                        <li><strong>Finance & Banking:</strong> Credit/debit card management,online banking, ATM operations, foreign exchange, KYC compliance.</li>
+                        <li><strong>Engineering & Systems Development:</strong> Aerospace engineering optimization, air traffic management solutions using genetic algorithms, digital signal processing (DSP), network engineering.</li>
+                        <li><strong>Networking:</strong> (TCP/IP, OSI, VLANs, BGP, OSPF, MPLS), Security (Firewalls, VPN, IDS/IPS), Wireless (802.11), Automation (Python), Monitoring (Wireshark, SNMP), SDN, VoIP, Linux/Windows.</li>
+                    </ul>
+
+            <h3>Soft Skills</h3>
+            <ul class="text">
+                <li><strong>Problem-Solving & Analytical Thinking:</strong> Strong ability to break down complex challenges</li>
+                <li><strong>Creativity:</strong> Experience in developing interactive applications and data-driven models</li>
+                <li><strong>Strategic Mindset:</strong> Expertise in creating efficient strategies</li>
+                <li><strong>Teamwork & Communication:</strong> Collaborates effectively in multidisciplinary teams</li>
+                <li><strong>Autonomy & Leadership:</strong> Capable of leading projects independently</li>
+            </ul>
+
+            <h3>Languages</h3>
+            <ul class="text">
+                <li>Spanish (Native)</li>
+                <li>English (Fluent)</li>
+                <li>French (B2 – Certified)</li>
+            </ul>
+        </section>
+
+        <section id="aptitudes" class="aptitudes">
+            <h2>Aptitudes</h2>
+            <br>
+            <h2>Still Developing this Section</h2>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2>Contact</h2>
+            <form action="https://formsubmit.co/manelcolominasruiz@gmail.com" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required style="width: 15%; height: 15px; padding: 5px; border: 3px solid #ccc;border-radius: 3px;">
+        
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required style="width: 15%; height: 15px; padding: 5px; border: 3px solid #ccc; border-radius: 3px;">
+                
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required style="textarea-field"></textarea>
+                
+                <button type="submit">Send</button>
+            </form>
+            <p>Or you can reach me at:</p>
+            <ul>
+                <li>Email: <a href="mailto:manelcolominasruiz@gmail.com">manelcolominasruiz@gmail.com</a></li>
+                <li>Phone: +34 639 293 352</li>
+                <li>LinkedIn: <a href="https://www.linkedin.com/in/manelcolominas">Manel Colominas</a></li>
+            </ul>
+        </section>        
+    </main>
+    
+    <footer>
+    <p id="footer-text">© 2024 Your Name. All rights reserved.</p>
+    <div class="social-links">
+        <a class="linkedin-link" href="https://www.linkedin.com/in/manelcolominas" target="_blank" aria-label="LinkedIn Profile">
+            <!-- Embedded LinkedIn SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" width="24" height="24" focusable="false">
+                <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2z" fill="#ffffff"/>
+                <path d="M8 19H5v-9h3z" fill="#333"/>
+                <path d="M6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75z" fill="#333"/>
+                <path d="M19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" fill="#333"/>
+            </svg>
+        </a>
+        
+        <a class="gmail-link" href="mailto:manelcolominasruiz@gmail.com" aria-label="Email">
+            <!-- Embedded Gmail SVG with White Edges -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 140" width="40" height="40">
+                <path fill="#ffffff" d="M58 108h14V74L52 59v43c0 3.32 2.69 6 6 6"/>
+                <path fill="#ffffff" d="M120 108h14c3.32 0 6-2.69 6-6V59l-20 15"/>
+                <path fill="#ffffff" d="M120 48v26l20-15v-8c0-7.42-8.47-11.65-14.4-7.2"/>
+                <path fill="#ffffff" d="M72 74V48l24 18 24-18v26L96 92"/>
+                <path fill="#ffffff" d="M52 51v8l20 15V48l-5.6-4.2c-5.94-4.45-14.4-.22-14.4 7.2"/>
+            </svg>
+        </a>
+    </div>
+</footer>
+
+<style>
+    .social-links {
+        display: flex; /* Use flexbox for layout */
+        align-items: center; /* Center items vertically */
+        justify-content: center; /* Center items horizontally */
+    }
+    .social-links a:not(:last-child) {
+        margin-right: 10px; /* Add margin between icons */
+    }
+</style>
+
+
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('main section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+            updateActiveNav(sectionId);
+        }
+
+        function updateActiveNav(sectionId) {
+            const navLinks = document.querySelectorAll('nav ul li a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            document.getElementById(`nav-${sectionId}`).classList.add('active');
+        }
+
+        // Show the About section by default
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('about');
+            const currentYear = new Date().getFullYear();
+            document.getElementById('footer-text').innerHTML = `&copy; ${currentYear} Manel Colominas. All rights reserved.`;
+        });
+    </script>
+</body>
+</html>
