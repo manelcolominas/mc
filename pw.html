@@ -1281,6 +1281,34 @@
                 height: 42px;
                 font-size: 1.1rem;
             }
+
+            .success-message {
+                display: none;
+                margin-top: 10px;
+                padding: 10px;
+                background-color: #d4edda;
+                color: #155724;
+                border-radius: 4px;
+                font-size: 0.9em;
+                animation: fadeIn 0.3s ease-in;
+            }
+
+            .form-status {
+                margin-top: 20px;
+                padding: 10px;
+                border-radius: 4px;
+                animation: fadeIn 0.3s ease-in;
+            }
+
+            .form-status.error {
+                background-color: #f8d7da;
+                color: #721c24;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
         }
 
         @media (max-width: 768px) {
@@ -2382,34 +2410,35 @@
         const form = e.target;
         const submitButton = form.querySelector('button[type="submit"]');
         const originalButtonText = submitButton.innerHTML;
-        const successMessage = document.getElementById('successMessage');
-        const formStatus = document.getElementById('formStatus');
+        const messageTextarea = document.getElementById('message');
         
+        // Create success message element if it doesn't exist
+        let successMessage = messageTextarea.nextElementSibling;
+        if (!successMessage || !successMessage.classList.contains('success-message')) {
+            successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            messageTextarea.insertAdjacentElement('afterend', successMessage);
+        }
+        successMessage.style.display = 'none';
+
         // Validate form before submission
         if (!validateForm(form)) {
             return;
         }
-        
+
         // Check for blocked email address
         const emailInput = document.getElementById('email');
         const senderEmail = emailInput.value.trim().toLowerCase();
         
         if (senderEmail === 'manelcolominasruiz@gmail.com') {
-            showStatus('Please use a different email address to contact me.', 'error', formStatus);
+            showStatus('Please use a different email address to contact me.', 'error');
             return;
         }
-        
+
         // Show loading state
         submitButton.innerHTML = '<span class="spinner"></span> Sending...';
         submitButton.disabled = true;
-        
-        // Hide any previous messages
-        if (successMessage) successMessage.style.display = 'none';
-        if (formStatus) {
-            formStatus.style.display = 'none';
-            formStatus.className = 'form-status';
-        }
-        
+
         try {
             const response = await fetch(form.action, {
                 method: 'POST',
@@ -2418,25 +2447,26 @@
                     'Accept': 'application/json'
                 }
             });
-            
+
             if (response.ok) {
-                // Show success messages
-                showStatus('Message sent successfully! I\'ll get back to you soon.', 'success', formStatus);
-                if (successMessage) successMessage.style.display = 'block';
-                
-                // Reset form
+                // Clear the form
                 form.reset();
                 
-                // Scroll to show success message
-                const scrollTarget = formStatus || document.getElementById('contact');
-                scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                // Show success message under the message textarea
+                successMessage.textContent = 'Thank you! Your message has been sent successfully.';
+                successMessage.style.display = 'block';
+                
+                // Hide the message after 5 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
             } else {
                 throw new Error(`Server responded with status ${response.status}`);
             }
         } catch (error) {
             const errorMsg = 'Oops! There was a problem sending your message. ' + 
                             'Please try again later or contact me directly at manelcolominasruiz@gmail.com.';
-            showStatus(errorMsg, 'error', formStatus);
+            showStatus(errorMsg, 'error');
             console.error('Error:', error);
         } finally {
             submitButton.innerHTML = originalButtonText;
@@ -2444,11 +2474,11 @@
         }
     });
 
+    // Helper functions
     function validateForm(form) {
         let isValid = true;
-        
-        // Validate required fields
         const requiredFields = form.querySelectorAll('[required]');
+        
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
                 isValid = false;
@@ -2458,38 +2488,21 @@
                 }, { once: true });
             }
         });
-        
-        // Validate email format
-        const emailField = form.querySelector('input[type="email"]');
-        if (emailField && !isValidEmail(emailField.value)) {
-            isValid = false;
-            emailField.style.borderColor = 'red';
-            emailField.addEventListener('input', function() {
-                this.style.borderColor = '#ccc';
-            }, { once: true });
-        }
-        
+
         return isValid;
     }
 
-    function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    function showStatus(message, type, element) {
-        if (!element) return;
+    function showStatus(message, type) {
+        const statusElement = document.createElement('div');
+        statusElement.className = `form-status ${type}`;
+        statusElement.textContent = message;
         
-        element.style.display = 'block';
-        element.classList.add(type);
-        element.textContent = message;
+        const form = document.getElementById('contactForm');
+        form.appendChild(statusElement);
         
-        // Auto-hide after 5 seconds
-        if (type === 'error') {
-            setTimeout(() => {
-                element.style.display = 'none';
-                element.classList.remove(type);
-            }, 5000);
-        }
+        setTimeout(() => {
+            statusElement.remove();
+        }, 5000);
     }
 </script>
 </body>
