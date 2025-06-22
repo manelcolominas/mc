@@ -2064,11 +2064,12 @@
                 <div class="contact-container">
                     <div class="contact-form">
                         <h2>Send me a message</h2>
-                        <form action="https://formsubmit.co/manelcolominasruiz@gmail.com" method="POST">
+                        <form id="contactForm" action="https://formsubmit.co/manelcolominasruiz@gmail.com" method="POST">
                             <!-- FormSubmit Configuration -->
                             <input type="hidden" name="_subject" value="New message from portfolio contact form">
                             <input type="hidden" name="_captcha" value="false">
                             <input type="hidden" name="_template" value="table">
+                            <!-- Remove the _next parameter since we'll handle success manually -->
                             
                             <!-- Form Fields -->
                             <div class="form-group">
@@ -2093,6 +2094,11 @@
                             <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
                                 <span>Send Message</span>
                             </button>
+                            
+                            <!-- Success message container (hidden by default) -->
+                            <div id="successMessage" style="display: none; margin-top: 20px; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 4px;">
+                                Thank you for your message! I'll get back to you soon.
+                            </div>
                         </form>
                     </div>
                     
@@ -2362,61 +2368,75 @@
         document.getElementById('footer-text').textContent = `© ${currentYear} Manel Colominas. All rights reserved.`;
     });
 
-    // Form submission handling
-    const contactForm = document.getElementById('contactForm');
+    // Contact form handling
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.innerHTML;
     const formStatus = document.getElementById('formStatus');
-    const submitBtn = document.getElementById('submitBtn');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const emailInput = document.getElementById('email');
-            const senderEmail = emailInput.value.trim().toLowerCase();
-            
-            if (senderEmail === 'manelcolominasruiz@gmail.com') {
-                showStatus('Please use a different email address to contact me.', 'error');
-                return;
-            }
-            
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>Sending...</span>';
-            
-            formStatus.style.display = 'none';
-            formStatus.className = 'form-status';
-            
-            fetch(contactForm.action, {
-                method: 'POST',
-                body: new FormData(contactForm),
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    showStatus('Message sent successfully! I\'ll get back to you soon.', 'success');
-                    contactForm.reset();
-                } else {
-                    throw new Error('Failed to send message');
-                }
-            })
-            .catch(error => {
-                showStatus('Oops! There was a problem sending your message. Please try again later or contact me directly at manelcolominasruiz@gmail.com.', 'error');
-                console.error('Error:', error);
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>Send Message</span>';
-                formStatus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            });
-        });
+    
+    // Check for blocked email address
+    const emailInput = document.getElementById('email');
+    const senderEmail = emailInput.value.trim().toLowerCase();
+    
+    if (senderEmail === 'manelcolominasruiz@gmail.com') {
+        showStatus('Please use a different email address to contact me.', 'error', formStatus);
+        return;
     }
-
-    function showStatus(message, type) {
-        formStatus.style.display = 'block';
-        formStatus.classList.add(type);
-        formStatus.textContent = message;
+    
+    // Show loading state
+    submitButton.innerHTML = 'Sending...';
+    submitButton.disabled = true;
+    
+    // Hide any previous status messages
+    if (formStatus) {
+        formStatus.style.display = 'none';
+        formStatus.className = 'form-status';
     }
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // Show success message in both ways
+            showStatus('Message sent successfully! I\'ll get back to you soon.', 'success', formStatus);
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Reset form
+            form.reset();
+            
+            // Scroll to show success message
+            const scrollTarget = formStatus || document.getElementById('contact');
+            scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+            throw new Error('Failed to send message');
+        }
+    })
+    .catch(error => {
+        const errorMsg = 'Oops! There was a problem sending your message. ' + 
+                         'Please try again later or contact me directly at manelcolominasruiz@gmail.com.';
+        showStatus(errorMsg, 'error', formStatus);
+        console.error('Error:', error);
+    })
+    .finally(() => {
+        submitButton.innerHTML = originalButtonText;
+        submitButton.disabled = false;
+    });
+});
+
+function showStatus(message, type, element) {
+    if (!element) return;
+    
+    element.style.display = 'block';
+    element.classList.add(type);
+    element.textContent = message;
+}
 </script>
 </body>
 </html>
